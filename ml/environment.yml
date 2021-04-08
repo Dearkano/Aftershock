@@ -1,0 +1,10 @@
+name: aftershock_python_env
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - matplotlib=2.2.3
+  - numpy=1.16.0
+  - python=3.7.9
+  - requests=2.25.1
