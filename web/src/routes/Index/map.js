@@ -58,12 +58,15 @@ function Map({ map, dispatch, showModal }) {
         div.transition().duration(200).style("opacity", 0.9);
         div
           .html(
-            d.place +
-              "<br/>" +
-              "Mag: " +
-              d.mag +
-              "<br />" +
-              dayjs(d.time).format("YYYY-MM-DD hh:mm:ss")
+            `<div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
+          <div>${d.place}</div>
+          <div>Mag: ${d.mag}</div>
+          <div>Time: ${dayjs(d.time).format("YYYY-MM-DD hh:mm:ss")}</div>
+          <img width=200 src="https://maps.googleapis.com/maps/api/staticmap?center=${
+            d.latitude
+          },${
+              d.longitude
+            }&zoom=8&size=400x400&maptype=satellite&key=AIzaSyBslY6g65StAcny01TsnugdoHjipGW8VYc"}/>`
           )
           .style("left", event.pageX + "px")
           .style("top", event.pageY - 28 + "px");
