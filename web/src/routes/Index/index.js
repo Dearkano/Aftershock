@@ -35,6 +35,7 @@ function IndexPage({ dispatch, map, loading }) {
   };
 
   const predict = (item) => {
+    if (item.mag < 5) return;
     dispatch({
       type: "map/predict",
       data: item,

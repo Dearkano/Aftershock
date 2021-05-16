@@ -75,6 +75,7 @@ function Map({ map, dispatch, showModal }) {
         div.transition().duration(500).style("opacity", 0);
       })
       .on("click", function (e, d) {
+        if (d.mag < 5) return;
         dispatch({
           type: "map/predict",
           payload: {
@@ -105,7 +106,7 @@ function Map({ map, dispatch, showModal }) {
       g1.attr("transform", transform);
       g1.attr("stroke-width", 1 / transform.k);
     }
-  }, []);
+  }, [data]);
   return (
     <React.Fragment>
       <div id="map" className={styles.normal}></div>{" "}
