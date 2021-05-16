@@ -106,6 +106,8 @@ function Map({ map, dispatch, showModal }) {
       g1.attr("transform", transform);
       g1.attr("stroke-width", 1 / transform.k);
     }
+
+    return () => svg.remove();
   }, [data]);
   return (
     <React.Fragment>
