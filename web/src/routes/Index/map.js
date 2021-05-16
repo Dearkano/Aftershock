@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "dva";
 import styles from "./index.less";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import worldmap from "./geo";
 import dayjs from "dayjs";
+import { Modal, Statistic, Card, Row, Col } from "antd";
+import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 
-function Map({ data }) {
+function Map({ map, dispatch, showModal }) {
+  const { data, prediction } = map;
+
   useEffect(() => {
     const width = 960;
     const height = 600;
@@ -40,18 +44,12 @@ function Map({ data }) {
       .enter()
       .append("circle")
       .attr("cx", function (d) {
-        return projection([
-          d.geometry.coordinates[0],
-          d.geometry.coordinates[1],
-        ])[0];
+        return projection([d.longitude, d.latitude])[0];
       })
       .attr("cy", function (d) {
-        return projection([
-          d.geometry.coordinates[0],
-          d.geometry.coordinates[1],
-        ])[1];
+        return projection([d.longitude, d.latitude])[1];
       })
-      .attr("r", (d) => d.properties.mag)
+      .attr("r", (d) => d.mag)
       .attr("fill", "red")
       .attr("fill-opacity", 0.5)
       .attr("stroke", "#fff")
@@ -60,18 +58,27 @@ function Map({ data }) {
         div.transition().duration(200).style("opacity", 0.9);
         div
           .html(
-            d.properties.place +
+            d.place +
               "<br/>" +
               "Mag: " +
-              d.properties.mag +
-              "<br/>" +
-              dayjs(d.properties.time).format("YYYY-MM-DD hh:mm:ss")
+              d.mag +
+              "<br />" +
+              dayjs(d.time).format("YYYY-MM-DD hh:mm:ss")
           )
           .style("left", event.pageX + "px")
           .style("top", event.pageY - 28 + "px");
       })
       .on("mouseout", function (d) {
         div.transition().duration(500).style("opacity", 0);
+      })
+      .on("click", function (e, d) {
+        dispatch({
+          type: "map/predict",
+          payload: {
+            data: d,
+          },
+        });
+        showModal();
       });
 
     svg.call(zoom);
@@ -96,7 +103,11 @@ function Map({ data }) {
       g1.attr("stroke-width", 1 / transform.k);
     }
   }, []);
-  return <div id="map" className={styles.normal}></div>;
+  return (
+    <React.Fragment>
+      <div id="map" className={styles.normal}></div>{" "}
+    </React.Fragment>
+  );
 }
 
-export default Map;
+export default connect(({ map }) => ({ map }))(Map);

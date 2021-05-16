@@ -3,6 +3,7 @@ export default {
 
   state: {
     data: {},
+    prediction: [],
   },
 
   subscriptions: {
@@ -17,17 +18,33 @@ export default {
       yield put({ type: "save" });
     },
     *getData({ payload }, { put }) {
+      const { mag, time } = payload;
       const res = yield fetch(
-        `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/${payload}.geojson`
+        `http://localhost:7001/query?mag=${mag}&range=${time}`
       );
       const data = yield res.json();
       yield put({ type: "save", payload: data });
+    },
+    *predict({ payload }, { put }) {
+      const { data } = payload;
+      const res = yield fetch(
+        `http://localhost:7001/predict?mag=${data.mag || 0}&mmi=${
+          data.mmi || 0
+        }&sig=${data.sig || 0}&depth=${data.depth || 0}&n_foreshocks=${
+          data.n_foreshocks || 0
+        }`
+      );
+      const d = yield res.json();
+      yield put({ type: "savePrediction", payload: d[0] });
     },
   },
 
   reducers: {
     save(state, action) {
       return { ...state, data: action.payload };
+    },
+    savePrediction(state, action) {
+      return { ...state, prediction: action.payload };
     },
   },
 };

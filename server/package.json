@@ -7,9 +7,12 @@
     "declarations": true
   },
   "dependencies": {
+    "@azure/cosmos": "^3.11.2",
     "chokidar": "^3.5.1",
     "egg": "^2.15.1",
-    "egg-scripts": "^2.11.0"
+    "egg-cors": "^2.2.3",
+    "egg-scripts": "^2.11.0",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "autod": "^3.0.1",
