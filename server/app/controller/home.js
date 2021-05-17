@@ -65,7 +65,6 @@ class HomeController extends Controller {
     const res = await fetch(
       `http://d65d760a-ffc8-471c-9d4a-61c05dc82b76.westus.azurecontainer.io/score?data=[[${[
         mag,
-        mmi,
         sig,
         depth,
         n_foreshocks,
