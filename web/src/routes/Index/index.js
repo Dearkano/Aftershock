@@ -38,7 +38,7 @@ function IndexPage({ dispatch, map, loading }) {
     if (item.mag < 5) return;
     dispatch({
       type: "map/predict",
-      data: item,
+      payload: { data: item },
     });
     showModal();
   };
