@@ -100,7 +100,13 @@ def deploy_models():
                                                    description='Predict aftershock situation '
                                                                'using linear models in sklearn')
 
-    env = Environment.get(workspace=ws, name="aftershock-env-01")
+    # env = Environment('aftershock-env')
+    # cd = CondaDependencies.create(pip_packages=['azureml-dataset-runtime[pandas,fuse]',
+    #                                             'azureml-defaults'],
+    #                               conda_packages=['scikit-learn==0.24.2'])
+    # env.python.conda_dependencies = cd
+    env = Environment.get(workspace=ws, name='aftershock-env')
+
     inference_config = InferenceConfig(entry_script="predict.py", environment=env)
     model = Model(ws, "aftershock_model")
 
@@ -127,13 +133,17 @@ if __name__ == "__main__":
     print("Azure ML SDK Version: ", azureml.core.VERSION)
 
     # connect to workspace
-    subscription_id = 'a53d5b1a-ed1b-4bd9-bc58-ea489ce7da2d'
-    resource_group = 'CS5412'
-    workspace_name = 'Aftershock_Forecast'
+    subscription_id = '937625ed-b6d9-4759-be33-95b1637d200b'
+    resource_group = 'FinalProject'
+    workspace_name = 'Aftershock_Prediction_Model'
+
     ws = Workspace(subscription_id, resource_group, workspace_name)
     print(ws.name, ws.location, ws.resource_group, sep='\t')
 
+    # run ML experiment in Azure service
     # Azure_ML_experiment()
+
+    # register and deploy the model
     # output_model = register_model()
-    # deploy_models()
+    deploy_models()
 

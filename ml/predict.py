@@ -4,9 +4,9 @@ import joblib
 from azureml.core.model import Model
 from azureml.core import Workspace
 
-subscription_id = 'a53d5b1a-ed1b-4bd9-bc58-ea489ce7da2d'
-resource_group = 'CS5412'
-workspace_name = 'Aftershock_Forecast'
+subscription_id = '937625ed-b6d9-4759-be33-95b1637d200b'
+resource_group = 'FinalProject'
+workspace_name = 'Aftershock_Prediction_Model'
 ws = Workspace(subscription_id, resource_group, workspace_name)
 print(ws.name, ws.location, ws.resource_group, sep='\t')
 
@@ -22,13 +22,13 @@ def init():
 
 def run(raw_data):
     print("arrive the API")
-    print("raw data")
-    print(raw_data)
-    print(type(raw_data))
-    data = np.array(json.loads(raw_data)['data'])
-    print("data")
-    print(data)
-    # make prediction
-    y_hat = model.predict(data)
-    # you can return any data type as long as it is JSON-serializable
-    return y_hat.tolist()
+    try:
+        print("raw data")
+        print(raw_data)
+        data = np.array(json.loads(raw_data)['data'])
+        # make prediction
+        y_hat = model.predict(data)
+        # you can return any data type as long as it is JSON-serializable
+        return y_hat.tolist()
+    except:
+        pass
