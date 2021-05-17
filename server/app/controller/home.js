@@ -63,7 +63,7 @@ class HomeController extends Controller {
     const mins = [5.0, 0, 385, -1.77, 0];
     const norm = (x, min, max) => (x - min) / (max - min);
     const res = await fetch(
-      `http://d65d760a-ffc8-471c-9d4a-61c05dc82b76.westus.azurecontainer.io/score?data=[[${[
+      `http://e53853b3-0277-4735-81ee-9a5b03e05bc4.westus.azurecontainer.io/score?data=[[${[
         mag,
         sig,
         depth,
