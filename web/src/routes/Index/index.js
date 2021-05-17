@@ -104,7 +104,7 @@ function IndexPage({ dispatch, map, loading }) {
                     style={{ width: "18rem", cursor: "pointer" }}
                     title={item.place}
                     extra={<span>{item.mag}</span>}
-                    onClick={(item) => predict(item)}
+                    onClick={() => predict(item)}
                   >
                     <p>
                       Location: {Math.abs(item.longitude)}°
